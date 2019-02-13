@@ -14,6 +14,16 @@ message UpdateInfo {
   int64 updateNum = 2;
 }
 
+message QuoteRequest {
+
+}
+
+message LastQuoteResponse {
+  repeated LastQuote = 1;
+}
+
 service Ein {
-  rpc Get(GetRequest) returns (GetResponse) {}
+  rpc GetAllLastQuotes(QuoteRequest) returns (LastQuotesResponse) {}
+  rpc GetLastQuote(QuoteRequest) returns (LastQuoteResponse) {}
+  rpc StreamUpdateInfo(StreamRequest) returns (stream UpdateInfo) {}
 }
