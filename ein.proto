@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = "github.com/ZhangYet/ein";
+package ein;
+
+message LastQuote {
+  string symbol = 2;
+  double price = 3;
+  int64 size = 5;
+  int64 time = 6;
+}
+
+message UpdateInfo {
+  int64 timestamp = 1;
+  int64 updateNum = 2;
+}
+
+service Ein {
+  rpc Get(GetRequest) returns (GetResponse) {}
+}
