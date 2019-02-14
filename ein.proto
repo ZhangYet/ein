@@ -15,11 +15,19 @@ message UpdateInfo {
 }
 
 message QuoteRequest {
+  string key = 1;
+}
 
+message StreamRequest {
+  string key = 1;
+}
+
+message LastQuotesResponse {
+  repeated LastQuote data = 1;
 }
 
 message LastQuoteResponse {
-  repeated LastQuote = 1;
+  LastQuote data = 1;
 }
 
 service Ein {
