@@ -1,13 +1,23 @@
 package server
 
 import (
+	"context"
 	"io"
 	"testing"
+	"time"
 
-	"context"
 	"github.com/ZhangYet/ein"
+	"github.com/ZhangYet/ein/common"
+
 	"github.com/stretchr/testify/assert"
 )
+
+func init() {
+	common.UpdateQuotaInfo = &ein.UpdateInfo{
+		Timestamp: time.Now().Unix(),
+		UpdateNum: 4,
+	}
+}
 
 func TestStreamUpdateInfo(t *testing.T) {
 	ctx := context.Background()
@@ -29,5 +39,6 @@ func TestStreamUpdateInfo(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.NotNil(t, res)
+		assert.Equal(t, int64(4), res.UpdateNum)
 	}
 }

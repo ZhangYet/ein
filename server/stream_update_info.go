@@ -1,16 +1,15 @@
 package server
 
 import (
-	"errors"
 	"github.com/ZhangYet/ein"
+	"github.com/ZhangYet/ein/common"
 )
 
 func (s EinServer) StreamUpdateInfo(r *ein.StreamRequest, stream ein.Ein_StreamUpdateInfoServer) error {
-	res := &ein.UpdateInfo{}
+	res := common.UpdateQuotaInfo
 	err := stream.Send(res)
 	if err != nil {
 		return err
 	}
-
-	return errors.New("not yet implemented")
+	return nil
 }
