@@ -9,7 +9,7 @@ proto:
 	protoc -I . ein.proto --lile-server_out=. --go_out=plugins=grpc:${GOPATH}/src
 
 build: proto
-	go build -o build/ZhangYet/ein ZhangYet/ein/main.go
+	go build -o build/ZhangYet/ein ./ein/main.go
     
 test:
 	@go get github.com/rakyll/gotest
