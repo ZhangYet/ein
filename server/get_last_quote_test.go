@@ -1,10 +1,11 @@
 package server
 
 import (
+	"context"
 	"testing"
 
-	"context"
 	"github.com/ZhangYet/ein"
+
 	"github.com/stretchr/testify/assert"
 )
 

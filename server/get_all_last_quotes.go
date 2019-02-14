@@ -1,12 +1,18 @@
 package server
 
 import (
-	"errors"
+	"github.com/ZhangYet/ein/common"
 
 	"context"
 	"github.com/ZhangYet/ein"
 )
 
 func (s EinServer) GetAllLastQuotes(ctx context.Context, r *ein.QuoteRequest) (*ein.LastQuotesResponse, error) {
-	return nil, errors.New("not yet implemented")
+	ret := &ein.LastQuotesResponse{
+		Data: []*ein.LastQuote{},
+	}
+	for _, lastQuote := range common.QuoteData {
+		ret.Data = append(ret.Data, lastQuote)
+	}
+	return ret, nil
 }

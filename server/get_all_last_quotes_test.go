@@ -1,12 +1,26 @@
 package server
 
 import (
-	"testing"
-
 	"context"
-	"github.com/ZhangYet/ein"
+	"testing"
+	"time"
+
 	"github.com/stretchr/testify/assert"
+
+	"github.com/ZhangYet/ein"
+	"github.com/ZhangYet/ein/common"
 )
+
+func init() {
+	common.QuoteData = map[string]*ein.LastQuote{
+		"IBM": &ein.LastQuote{
+			Symbol: "IBM",
+			Time:   time.Now().Unix(),
+			Price:  42.0,
+			Size:   100,
+		},
+	}
+}
 
 func TestGetAllLastQuotes(t *testing.T) {
 	ctx := context.Background()
@@ -15,4 +29,5 @@ func TestGetAllLastQuotes(t *testing.T) {
 	res, err := cli.GetAllLastQuotes(ctx, req)
 	assert.Nil(t, err)
 	assert.NotNil(t, res)
+	assert.Equal(t, 1, len(res.Data))
 }
