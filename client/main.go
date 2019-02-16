@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"os"
+	"time"
 
 	"github.com/ZhangYet/ein"
 
@@ -58,6 +60,39 @@ func main() {
 					fmt.Printf("Symbol: %s, price: %f \n", res.Data.Symbol, res.Data.Price)
 				}
 				return err
+			},
+		},
+		{
+			Name:  "daemon",
+			Usage: "run in daemon and waiting for update info",
+			Action: func(ctx *cli.Context) error {
+				span := tracer.StartSpan(ctx.Command.Name)
+				einCtx := opentracing.ContextWithSpan(context.Background(), span)
+				req := &ein.StreamRequest{}
+				resChan := make(chan ein.Ein_StreamUpdateInfoClient)
+				go func() {
+					for {
+						recv, err := einClient.StreamUpdateInfo(einCtx, req)
+						if err != nil {
+							panic(err)
+						}
+						resChan <- recv
+						time.Sleep(3 * time.Second)
+					}
+				}()
+
+				for {
+					recv := <-resChan
+					res, err := recv.Recv()
+					if err != nil && err != io.EOF {
+						break
+					}
+					if res != nil {
+						fmt.Printf("number: %d, timestamp: %d\n", res.UpdateNum, res.Timestamp)
+					}
+					time.Sleep(time.Second)
+				}
+				return nil
 			},
 		},
 	}
