@@ -1,6 +1,10 @@
 package server
 
-import "github.com/ZhangYet/ein/common"
+import (
+	"time"
+
+	"github.com/ZhangYet/ein/common"
+)
 
 func (s *EinServer) SyncLastQuotes() error {
 	quotes, err := common.GetLastQuotes()
@@ -10,5 +14,7 @@ func (s *EinServer) SyncLastQuotes() error {
 	for _, quote := range quotes {
 		common.QuoteData[quote.Symbol] = quote
 	}
+	common.UpdateQuotaInfo.UpdateNum = int64(len(quotes))
+	common.UpdateQuotaInfo.Timestamp = time.Now().Unix()
 	return nil
 }

@@ -25,7 +25,7 @@ var upCmd = &cobra.Command{
 			pubsub.Subscribe(&subscribers.EinServiceSubscriber{})
 		}()
 
-		<-c
+		<-c // TODO graceful exit
 		lile.Shutdown()
 		pubsub.Shutdown()
 	},

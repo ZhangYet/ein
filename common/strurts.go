@@ -7,3 +7,8 @@ import "github.com/ZhangYet/ein"
 var QuoteData map[string]*ein.LastQuote
 
 var UpdateQuotaInfo *ein.UpdateInfo
+
+func init() {
+	QuoteData = make(map[string]*ein.LastQuote)
+	UpdateQuotaInfo = &ein.UpdateInfo{}
+}
