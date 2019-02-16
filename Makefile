@@ -14,3 +14,6 @@ build: proto
 test:
 	@go get github.com/rakyll/gotest
 	gotest -p 1 -v ./...
+
+client: proto
+	go build -o build/ZhangYet/ein-client ./client/main.go

@@ -15,7 +15,7 @@ var (
 	Client EinClient
 )
 
-func GetEinClient() EinClient {
+func GetEinClient(server string) EinClient {
 	cm.Lock()
 	defer cm.Unlock()
 
@@ -23,12 +23,10 @@ func GetEinClient() EinClient {
 		return Client
 	}
 
-	serviceURL := lile.URLForService("ein")
-
 	// We don't need to error here, as this creates a pool and connections
 	// will happen later
 	conn, _ := grpc.Dial(
-		serviceURL,
+		server,
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(
 			grpc_middleware.ChainUnaryClient(

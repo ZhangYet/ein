@@ -37,7 +37,7 @@ func main() {
 		ein.RegisterEinServer(g, s)
 	})
 
-	ticker := time.NewTicker(time.Second * 3)
+	ticker := time.NewTicker(time.Second * 60)
 	defer ticker.Stop()
 	go func() {
 		span := tracer.StartSpan("SyncLastQuotes")
