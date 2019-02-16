@@ -99,5 +99,6 @@ func main() {
 	app := cli.App{}
 	app.Name = "ein-client"
 	app.Commands = commands
+	app.Version = "0.0.1"
 	app.Run(os.Args)
 }
