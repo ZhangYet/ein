@@ -2,7 +2,7 @@ package server
 
 import "github.com/ZhangYet/ein/common"
 
-func (this EinServer) SyncLastQuotes() error {
+func (s *EinServer) SyncLastQuotes() error {
 	quotes, err := common.GetLastQuotes()
 	if err != nil {
 		return err
