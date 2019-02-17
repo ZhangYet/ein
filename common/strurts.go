@@ -5,6 +5,7 @@ import (
 
 	"github.com/ZhangYet/ein"
 
+	"github.com/go-redis/redis"
 	"github.com/sirupsen/logrus"
 
 	opentracing "github.com/opentracing/opentracing-go"
@@ -19,6 +20,8 @@ var (
 
 	LogrusLogger = logrus.New()
 	LogrusEntry  = logrus.Entry{}
+
+	RedisClient = redis.Client{}
 )
 
 func init() {
@@ -39,4 +42,6 @@ func init() {
 		panic(err)
 	}
 	opentracing.SetGlobalTracer(tracer)
+
+	RedisClient = *redis.NewClient(&redis.Options{Addr: "localhost:6379"})
 }

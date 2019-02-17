@@ -26,3 +26,22 @@ func GetLastQuotes() ([]*ein.LastQuote, error) {
 	err = json.Unmarshal(body, &ret)
 	return ret, err
 }
+
+func CacheQuoteData() error {
+	data, err := json.Marshal(QuoteData)
+	if err != nil {
+		return err
+	}
+	return RedisClient.Set(REDIS_CACHE_SYNC_DATA, string(data), 0).Err()
+}
+
+func LoadQuoteData() error {
+	temp := make(map[string]*ein.LastQuote)
+	data, err := RedisClient.Get(REDIS_CACHE_SYNC_DATA).Result()
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal([]byte(data), &temp)
+	QuoteData = temp
+	return err
+}
