@@ -1,12 +1,10 @@
 package main
 
 import (
-	"context"
 	"time"
 
 	"github.com/lileio/fromenv"
 	"github.com/lileio/lile"
-	"github.com/lileio/logr"
 	"github.com/lileio/pubsub"
 	"github.com/lileio/pubsub/middleware/defaults"
 	"google.golang.org/grpc"
@@ -19,17 +17,10 @@ import (
 	_ "net/http/pprof"
 
 	grpc_logrus "github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
-	opentracing "github.com/opentracing/opentracing-go"
-	zipkintracer "github.com/openzipkin/zipkin-go-opentracing"
+	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 )
 
 func main() {
-	recorder := zipkintracer.NewInMemoryRecorder()
-	tracer, err := zipkintracer.NewTracer(recorder)
-	if err != nil {
-		panic(err)
-	}
-	opentracing.SetGlobalTracer(tracer)
 
 	s := &server.EinServer{}
 
@@ -39,18 +30,16 @@ func main() {
 	})
 
 	lile.AddUnaryInterceptor(grpc_logrus.UnaryServerInterceptor(&common.LogrusEntry))
+	lile.AddUnaryInterceptor(grpc_opentracing.UnaryServerInterceptor())
 
 	ticker := time.NewTicker(time.Second * 3)
 	defer ticker.Stop()
 	go func() {
-		span := tracer.StartSpan("SyncLastQuotes")
-		ctx := opentracing.ContextWithSpan(context.Background(), span)
 		for range ticker.C {
 			err := s.SyncLastQuotes()
 			if err != nil {
 				common.LogrusLogger.Error(err)
 			} else {
-				logr.WithCtx(ctx).Info(common.UpdateQuotaInfo)
 				common.LogrusLogger.Info(common.UpdateQuotaInfo)
 			}
 

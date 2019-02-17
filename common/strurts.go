@@ -6,9 +6,12 @@ import (
 	"github.com/ZhangYet/ein"
 
 	"github.com/sirupsen/logrus"
+
+	opentracing "github.com/opentracing/opentracing-go"
+	zipkintracer "github.com/openzipkin/zipkin-go-opentracing"
 )
 
-// 配置文件，公用变量
+// 公用变量
 
 var (
 	QuoteData       map[string]*ein.LastQuote
@@ -29,4 +32,11 @@ func init() {
 	}
 	LogrusLogger.SetOutput(logFile)
 	LogrusEntry = *logrus.NewEntry(LogrusLogger)
+
+	recorder := zipkintracer.NewInMemoryRecorder()
+	tracer, err := zipkintracer.NewTracer(recorder)
+	if err != nil {
+		panic(err)
+	}
+	opentracing.SetGlobalTracer(tracer)
 }
