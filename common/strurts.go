@@ -21,7 +21,7 @@ var (
 	LogrusLogger = logrus.New()
 	LogrusEntry  = logrus.Entry{}
 
-	RedisClient = redis.Client{}
+	RedisClient = redis.Client{} // TODO 此处应该有封装
 )
 
 func init() {

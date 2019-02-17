@@ -32,6 +32,10 @@ func main() {
 	lile.AddUnaryInterceptor(grpc_logrus.UnaryServerInterceptor(&common.LogrusEntry))
 	lile.AddUnaryInterceptor(grpc_opentracing.UnaryServerInterceptor())
 
+	if err := common.LoadQuoteData(); err != nil {
+		common.LogrusLogger.Error(err)
+	}
+
 	ticker := time.NewTicker(time.Second * 3)
 	defer ticker.Stop()
 	go func() {

@@ -11,6 +11,9 @@ func (s *EinServer) SyncLastQuotes() error {
 	if err != nil {
 		return err
 	}
+	if err := common.CacheQuoteData(); err != nil {
+		common.LogrusLogger.Error(err)
+	}
 	for _, quote := range quotes {
 		common.QuoteData[quote.Symbol] = quote
 	}
