@@ -3,6 +3,10 @@
 	"ignore": "",
 	"package": [
 		{
+			"path": "github.com/go-redis/redis",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "3vi82mWDb4wwMD3xkDNRF7os7r8=",
 			"path": "gopkg.in/urfave/cli.v2",
 			"revision": "d3ae77c26ac8db90639677e4831a728d33c36111",
