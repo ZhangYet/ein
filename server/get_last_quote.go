@@ -1,11 +1,11 @@
 package server
 
 import (
-	"errors"
-	"github.com/ZhangYet/ein/common"
-
 	"context"
+	"errors"
+
 	"github.com/ZhangYet/ein"
+	"github.com/ZhangYet/ein/common"
 )
 
 func (s EinServer) GetLastQuote(ctx context.Context, r *ein.QuoteRequest) (*ein.LastQuoteResponse, error) {
